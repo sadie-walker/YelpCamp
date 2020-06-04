@@ -3,6 +3,7 @@ const app = express();
 const port = process.env.PORT || 3000; 
 
 app.set("view engine", "ejs");
+app.use(express.urlencoded());
 
 app.get("/", function(req, res){
     res.render("landing");
@@ -16,6 +17,10 @@ app.get("/campgrounds", function(req,res){
         {name: "Camp4", image: "https://images.unsplash.com/photo-1508873696983-2dfd5898f08b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"},
     ]
     res.render("campgrounds",{campgrounds: campgrounds});
+})
+
+app.post("/campgrounds", function(req,res){
+
 })
 
 app.listen(port, function(){
