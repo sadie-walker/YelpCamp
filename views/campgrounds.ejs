@@ -2,9 +2,11 @@
 <h1>Campgrounds</h1>
 
 <ul>
+    <!-- list camps -->
     <% campgrounds.forEach(function(camp){ %>
         <li><%= camp.name%></li>
         <img src="<%=camp.image%>">
     <% }) %>
 </ul>
+
 <%- include("partials/footer") %>
