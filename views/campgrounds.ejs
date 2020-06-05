@@ -3,16 +3,18 @@
 
     <header class="jumbotron text-center p-2">
         <h1 class="display-1 mb-4">Campgrounds</h1>
-        <a href="/campgrounds/new">Add New Campground</a>
+        <a class="btn btn-primary" href="/campgrounds/new">Add New Campground</a>
     </header>
 
 <div class="container">
-    <ul>
-        <!-- list camps -->
+
+    <div class="row">
         <% campgrounds.forEach(function(camp){ %>
-            <li><%= camp.name%></li>
-            <img src="<%=camp.image%>">
+            <div class="col-6 col-md-4 text-center">
+                    <h3><%= camp.name%></h3>
+                        <img class="img-thumbnail" src="<%=camp.image%>">
+            </div>
         <% }) %>
-    </ul>
+    </div>
 </div>
 <%- include("partials/footer") %>
