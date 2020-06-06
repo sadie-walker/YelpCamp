@@ -1,6 +1,10 @@
 const express = require("express");
 const app = express();
+const mongoose = require("mongoose");
+
 const port = process.env.PORT || 3000; 
+
+mongoose.connect("mongodb://localhost:27017/yelp_camp", { useNewUrlParser: true , useUnifiedTopology: true}); 
 
 const campgrounds = [
     {name: "Camp1", image: "https://images.unsplash.com/photo-1510312305653-8ed496efae75?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"},
