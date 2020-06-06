@@ -6,6 +6,25 @@ const port = process.env.PORT || 3000;
 
 mongoose.connect("mongodb://localhost:27017/yelp_camp", { useNewUrlParser: true , useUnifiedTopology: true}); 
 
+const campgroundSchema = new mongoose.Schema({
+    name: String,
+    image: String
+})
+
+const Campground = mongoose.model("Campground", campgroundSchema);
+
+Campground.create({
+    name: "Camp1", 
+    image: "https://images.unsplash.com/photo-1510312305653-8ed496efae75?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"
+}, function(err, campground){
+    if(err){
+        console.log("error");
+    }
+    else{
+        console.log("campgrounded added")
+    }
+});
+
 const campgrounds = [
     {name: "Camp1", image: "https://images.unsplash.com/photo-1510312305653-8ed496efae75?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"},
     {name: "Camp2", image: "https://images.unsplash.com/photo-1537565266759-34bbc16be345?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"},
