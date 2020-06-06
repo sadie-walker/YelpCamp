@@ -63,6 +63,10 @@ app.get("/campgrounds/new", function(req,res){
     res.render("new-camp");
 })
 
+app.get("/campgrounds/:campName", function(req,res){
+    res.render("show");
+})
+
 app.listen(port, function(){
     console.log("server is running");
 })
