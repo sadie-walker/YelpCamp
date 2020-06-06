@@ -27,12 +27,12 @@ app.get("/", function(req, res){
 })
 
 app.get("/campgrounds", function(req,res){
-    Campground.find({}, function(err,campgrounds){
+    Campground.find({}, function(err,allCampgrounds){
         if(err){
             console.log("error");
             console.log(err);
         } else {
-            res.render("campgrounds", {campgrounds: campgrounds})
+            res.render("index", {allCampgrounds: allCampgrounds})
         }
     })
 })
@@ -46,13 +46,13 @@ app.post("/campgrounds", function(req,res){
         name: campInput, 
         image: imageInput,
         description: descInput
-    }, function(err, campground){
+    }, function(err, newCampground){
         if(err){
             console.log("error");
             console.log(err);
         }
         else{
-            console.log("campgrounded added")
+            console.log("campground added")
         }
     });
 
@@ -63,8 +63,14 @@ app.get("/campgrounds/new", function(req,res){
     res.render("new-camp");
 })
 
-app.get("/campgrounds/:campName", function(req,res){
-    res.render("show");
+app.get("/campgrounds/:campID", function(req,res){
+    Campground.findById(req.params.campID, function(err, rtrnCamp){
+        if(err){
+            console.log(err)
+        } else{
+            res.render("show", {campground: rtrnCamp});
+        }
+    })
 })
 
 app.listen(port, function(){
