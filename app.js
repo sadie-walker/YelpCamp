@@ -25,7 +25,7 @@ Campground.create({
     }
 });
 
-const campgrounds = [
+/* const campgrounds = [
     {name: "Camp1", image: "https://images.unsplash.com/photo-1510312305653-8ed496efae75?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"},
     {name: "Camp2", image: "https://images.unsplash.com/photo-1537565266759-34bbc16be345?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"},
     {name: "Camp3", image: "https://images.unsplash.com/photo-1563299796-17596ed6b017?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"},
@@ -34,7 +34,7 @@ const campgrounds = [
     {name: "Camp6", image: "https://images.unsplash.com/photo-1564577160324-112d603f750f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1351&q=80"},
     {name: "Camp7", image: "https://images.unsplash.com/photo-1541363452546-84aa064f4806?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1349&q=80"},
     {name: "Camp8", image: "https://images.unsplash.com/photo-1516013894828-b214a58fdba7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1355&q=80"}
-]
+] */
 
 app.use(express.json());
 app.use(express.urlencoded());
@@ -46,7 +46,15 @@ app.get("/", function(req, res){
 })
 
 app.get("/campgrounds", function(req,res){
-    res.render("campgrounds",{campgrounds: campgrounds});
+    Campground.find({}, function(err,campgrounds){
+        if(err){
+            console.log("error");
+            console.log(err);
+        } else {
+            res.render("campgrounds", {campgrounds: campgrounds})
+        }
+    })
+    //res.render("campgrounds",{campgrounds: campgrounds});
 })
 
 app.post("/campgrounds", function(req,res){
