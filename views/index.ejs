@@ -1,0 +1,24 @@
+<%- include("partials/header") %>
+<%- include("partials/navbar") %>
+
+    <header class="jumbotron text-center pb-4 text-uppercase">
+        <h1 class="display-1 mb-5 font-weight-bold">Campgrounds</h1>
+        <a class="btn btn-success font-weight-bolder" href="/campgrounds/new">Add New Campground</a>
+    </header>
+
+<div class="container">
+
+    <div class="row">
+        <% campgrounds.forEach(function(camp){ %>
+            <div class="col-6 col-md-4 pb-4">
+                <div class="card">
+                    <img src="<%=camp.image%>" class="card-img-top" alt="..." height="300">
+                    <div class="card-body">
+                        <h3><%= camp.name%></h3>
+                    </div>
+                  </div>      
+            </div>
+        <% }) %>
+    </div>
+</div>
+<%- include("partials/footer") %>
