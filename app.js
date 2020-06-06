@@ -9,7 +9,8 @@ mongoose.connect("mongodb://localhost:27017/yelp_camp", { useNewUrlParser: true 
 //add campground Schema
 const campgroundSchema = new mongoose.Schema({
     name: String,
-    image: String
+    image: String,
+    description: String
 })
 
 //create camground model
@@ -39,13 +40,16 @@ app.get("/campgrounds", function(req,res){
 app.post("/campgrounds", function(req,res){
     let campInput = req.body.newCampInput;
     let imageInput = req.body.newCampImageInput
+    let descInput = req.body.newCampDescInput
 
     Campground.create({
         name: campInput, 
-        image: imageInput
+        image: imageInput,
+        description: descInput
     }, function(err, campground){
         if(err){
             console.log("error");
+            console.log(err);
         }
         else{
             console.log("campgrounded added")
