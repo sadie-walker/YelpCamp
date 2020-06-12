@@ -26,6 +26,7 @@ app.get("/", function(req, res){
     res.render("landing");
 })
 
+//INDEX
 app.get("/campgrounds", function(req,res){
     Campground.find({}, function(err,allCampgrounds){
         if(err){
@@ -37,6 +38,7 @@ app.get("/campgrounds", function(req,res){
     })
 })
 
+//CREATE
 app.post("/campgrounds", function(req,res){
     let campInput = req.body.newCampInput;
     let imageInput = req.body.newCampImageInput
@@ -59,10 +61,12 @@ app.post("/campgrounds", function(req,res){
     res.redirect("/campgrounds");
 })
 
+//NEW
 app.get("/campgrounds/new", function(req,res){
     res.render("new-camp");
 })
 
+//SHOW
 app.get("/campgrounds/:campID", function(req,res){
     Campground.findById(req.params.campID, function(err, rtrnCamp){
         if(err){
@@ -73,6 +77,7 @@ app.get("/campgrounds/:campID", function(req,res){
     })
 })
 
+//server
 app.listen(port, function(){
     console.log("server is running");
 })
