@@ -9,8 +9,8 @@
     <h4>Comments</h4>
     <% campground.comments.forEach(function(comment){ %>
         <p><strong><%=comment.author%></strong> - <%=comment.text%></p>
-        
     <% }) %>
+    <a href="/campgrounds/<%= campground._id %>/comments/new">New Comment</a>
     
 </div>
 
