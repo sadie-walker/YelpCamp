@@ -1,4 +1,4 @@
-const mondoose = require("mongoose");
+const mongoose = require("mongoose");
 
 //add campground Schema
 const campgroundSchema = new mongoose.Schema({
