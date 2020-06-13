@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const Campground = require("./models/campground");
+const Comment = require("./models/comment");
 
 const port = process.env.PORT || 3000; 
 
@@ -75,6 +76,24 @@ app.get("/campgrounds/:id/comments/new", function(req,res){
             console.log(err);
         } else{
             res.render("comments/new", {campground: rtrnCamp});
+        }
+    })
+})
+
+app.post("/campgrounds/:id/comments", function(req,res){
+    Campground.findById(req.params.id, function(err, rtrnCamp){
+        if(err){
+            console.log(err);
+        } else {
+            Comment.create(req.body.comment, function(err, comment){
+                if(err){
+                    console.log(err);
+                } else {
+                    rtrnCamp.comments.push(comment);
+                    rtrnCamp.save();
+                    res.redirect("/campgrounds/" + rtrnCamp._id);
+                }
+            })
         }
     })
 })
