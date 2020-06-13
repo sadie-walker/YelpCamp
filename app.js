@@ -68,6 +68,16 @@ app.get("/campgrounds/:id", function(req,res){
     })
 })
 
+// ***********************************************************************************************
+app.get("/campgrounds/:id/comments/new", function(req,res){
+    Campground.findById(req.params.id, function(err, rtrnCamp){
+        if(err){
+            console.log(err);
+        } else{
+            res.render("comments/new", {campground: rtrnCamp});
+        }
+    })
+})
 //server
 app.listen(port, function(){
     console.log("server is running");
