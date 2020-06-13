@@ -1,21 +1,12 @@
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
+const Campground = require("./models/campground");
 
 const port = process.env.PORT || 3000; 
 
+//connect to database
 mongoose.connect("mongodb://localhost:27017/yelp_camp", { useNewUrlParser: true , useUnifiedTopology: true}); 
-
-//add campground Schema
-const campgroundSchema = new mongoose.Schema({
-    name: String,
-    image: String,
-    description: String
-})
-
-//create camground model
-const Campground = mongoose.model("Campground", campgroundSchema);
-
 
 app.use(express.json());
 app.use(express.urlencoded());
