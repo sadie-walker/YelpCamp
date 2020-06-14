@@ -6,3 +6,7 @@ body{
     margin: 0 auto;
     width: 500px;
 }
+
+#commentsCard{
+    background-color: rgba(189, 189, 189, 0.685);
+}
