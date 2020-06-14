@@ -7,12 +7,11 @@
     </header>
 
 <div class="container">
-
     <div class="row">
         <% allCampgrounds.forEach(function(camp){ %>
             <div class="col-6 col-md-4 pb-4">
-                <div class="card">
-                    <img src="<%=camp.image%>" class="card-img-top" alt="..." height="300">
+                <div id="campgroundGrid" class="card">
+                    <img src="<%=camp.image%>" class="card-img-top" alt="...">
                     <div class="card-body">
                         <h3><%= camp.name%></h3>
                     </div>

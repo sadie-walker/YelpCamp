@@ -1,12 +1,26 @@
 body{
     font-family: 'Rajdhani', sans-serif;    
 }
+/* ************************************************* */
 
+/* campgrounds page */
+ #campgroundGrid img{
+    height: 15em;
+}
+/* ************************************************* */
+
+/* new comment & new campground page */
 .form-container{
     margin: 0 auto;
     width: 500px;
 }
+/* ************************************************* */
 
+/* campground show page */
 #commentsCard{
     background-color: rgba(189, 189, 189, 0.685);
+}
+
+#campgroundCard{
+    width: 100%;
 }

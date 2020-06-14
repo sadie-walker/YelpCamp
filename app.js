@@ -14,6 +14,7 @@ app.use(express.urlencoded());
 app.use(express.static(__dirname + "/public"));
 app.set("view engine", "ejs");
 
+//landing page
 app.get("/", function(req, res){
     res.render("landing");
 })
@@ -70,6 +71,7 @@ app.get("/campgrounds/:id", function(req,res){
 })
 
 // ***********************************************************************************************
+//Comments NEW route
 app.get("/campgrounds/:id/comments/new", function(req,res){
     Campground.findById(req.params.id, function(err, rtrnCamp){
         if(err){
@@ -80,6 +82,7 @@ app.get("/campgrounds/:id/comments/new", function(req,res){
     })
 })
 
+//comments CREATE route
 app.post("/campgrounds/:id/comments", function(req,res){
     Campground.findById(req.params.id, function(err, rtrnCamp){
         if(err){
@@ -97,6 +100,7 @@ app.post("/campgrounds/:id/comments", function(req,res){
         }
     })
 })
+
 //server
 app.listen(port, function(){
     console.log("server is running");
