@@ -121,7 +121,34 @@ app.post("/campgrounds/:id/comments", function(req,res){
 })
 
 // ******************* PASSPORT ROUTES *****************************
+//registration routes
+app.get("/register", function(req,res){
+    res.render("register");
+})
 
+app.post("/register", function(req,res){
+    const newUser = new User({username: req.body.username})
+    User.register(newUser, req.body.password, function(err, user){
+        if(err){
+            console.log(err);
+            return res.render("register");
+        } else {
+            passport.authenticate("local")(res, req, function(){
+                res.redirect("/campgrounds");
+            })
+        }
+    })
+})
+
+//login routes
+app.get("/login", function(req,res){
+    res.render("login");
+})
+
+app.post("/login", passport.authenticate("local", {
+    successRedirect: "/campgrounds",
+    failureRedirect: "/login"
+}), function(req,res){})
 
 //server
 app.listen(port, function(){
