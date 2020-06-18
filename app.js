@@ -150,6 +150,12 @@ app.post("/login", passport.authenticate("local", {
     failureRedirect: "/login"
 }), function(req,res){})
 
+//logout route
+app.get("/logout", function(req,res){
+    req.logout();
+    res.redirect("/campgrounds")
+})
+
 //server
 app.listen(port, function(){
     console.log("server is running");
