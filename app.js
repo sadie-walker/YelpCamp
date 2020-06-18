@@ -17,11 +17,27 @@ app.use(express.urlencoded());
 app.use(express.static(__dirname + "/public"));
 app.set("view engine", "ejs");
 
+// ********** PASSPORT CONFIG
+app.use(require("express-session")({
+    secret: "This is a secret",
+    resave: false,
+    saveUninitialized: false
+}))
+
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+
+// ********************************* ROUTES ********************************************************************
 //landing page
 app.get("/", function(req, res){
     res.render("landing");
 })
 
+// *************** CAMPGROUND ROUTES ***********************************************
 //INDEX
 app.get("/campgrounds", function(req,res){
     Campground.find({}, function(err,allCampgrounds){
@@ -73,7 +89,7 @@ app.get("/campgrounds/:id", function(req,res){
     })
 })
 
-// ***********************************************************************************************
+// *******************COMMENTS ROUTES ****************************************************
 //Comments NEW route
 app.get("/campgrounds/:id/comments/new", function(req,res){
     Campground.findById(req.params.id, function(err, rtrnCamp){
@@ -103,6 +119,9 @@ app.post("/campgrounds/:id/comments", function(req,res){
         }
     })
 })
+
+// ******************* PASSPORT ROUTES *****************************
+
 
 //server
 app.listen(port, function(){
