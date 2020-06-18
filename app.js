@@ -3,6 +3,9 @@ const app = express();
 const mongoose = require("mongoose");
 const Campground = require("./models/campground");
 const Comment = require("./models/comment");
+const User = require("./models/user")
+const passport = require("passport");
+const LocalStrategy = require("passport-local");
 
 const port = process.env.PORT || 3000; 
 
