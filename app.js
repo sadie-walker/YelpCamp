@@ -92,7 +92,7 @@ app.get("/campgrounds/:id", function(req,res){
 // *******************COMMENTS ROUTES ****************************************************
 //Comments NEW route
 app.get("/campgrounds/:id/comments/new", function(req,res){
-    Campground.findById(req.params.id, function(err, rtrnCamp){
+    Campground.findById(req.params.id, isLoggedIn, function(err, rtrnCamp){
         if(err){
             console.log(err);
         } else{
@@ -149,6 +149,14 @@ app.post("/login", passport.authenticate("local", {
     successRedirect: "/campgrounds",
     failureRedirect: "/login"
 }), function(req,res){})
+
+function isLoggedIn(req,res,next){
+    if(req.isAuthenticated()){
+        return next();
+    } else {
+        res.redirect("/login");
+    }
+}
 
 //logout route
 app.get("/logout", function(req,res){
