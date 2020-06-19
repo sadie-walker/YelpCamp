@@ -28,6 +28,7 @@ router.post("/", isLoggedIn, function(req,res){
         else{
             newCamp.author = {
                 _id: req.user._id,
+                id: req.user._id,
                 username: req.user.username
             }
             newCamp.save();
@@ -47,6 +48,13 @@ router.get("/:id", function(req,res){
     })
 })
 
+// Campground EDIT
+router.get("/:id/edit", function(req,res){
+    Campground.findById(req.params.id, function(err, rtrnCamp){
+        res.render("campgrounds/edit", {campground: rtrnCamp});
+    })
+    
+})
 function isLoggedIn(req, res, next){
     if(req.isAuthenticated()){
         return next();
