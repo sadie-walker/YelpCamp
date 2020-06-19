@@ -52,6 +52,13 @@ router.get("/:id", function(req,res){
 router.get("/:id/edit", function(req,res){
     Campground.findById(req.params.id, function(err, rtrnCamp){
         res.render("campgrounds/edit", {campground: rtrnCamp});
+        if(err){
+            console.log(err);
+        } else {
+            res.render("campgrounds/edit", {campground: rtrnCamp});
+        }
+    })
+})
     })
     
 })
