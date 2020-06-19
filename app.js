@@ -14,6 +14,7 @@ mongoose.connect("mongodb://localhost:27017/yelp_camp", { useNewUrlParser: true 
 
 app.use(express.json());
 app.use(express.urlencoded());
+
 app.use(express.static(__dirname + "/public"));
 app.set("view engine", "ejs");
 
@@ -30,7 +31,10 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-
+app.use(function(req, res, next){
+    res.locals.currentUser = req.user;
+    next();
+})
 // ********************************* ROUTES ********************************************************************
 //landing page
 app.get("/", function(req, res){
@@ -45,7 +49,7 @@ app.get("/campgrounds", function(req,res){
             console.log("error");
             console.log(err);
         } else {
-            res.render("campgrounds/index", {allCampgrounds: allCampgrounds})
+            res.render("campgrounds/index", {allCampgrounds: allCampgrounds});
         }
     })
 })
@@ -91,8 +95,8 @@ app.get("/campgrounds/:id", function(req,res){
 
 // *******************COMMENTS ROUTES ****************************************************
 //Comments NEW route
-app.get("/campgrounds/:id/comments/new", function(req,res){
-    Campground.findById(req.params.id, isLoggedIn, function(err, rtrnCamp){
+app.get("/campgrounds/:id/comments/new", isLoggedIn,  function(req,res){
+    Campground.findById(req.params.id, function(err, rtrnCamp){
         if(err){
             console.log(err);
         } else{
@@ -102,7 +106,7 @@ app.get("/campgrounds/:id/comments/new", function(req,res){
 })
 
 //comments CREATE route
-app.post("/campgrounds/:id/comments", function(req,res){
+app.post("/campgrounds/:id/comments", isLoggedIn, function(req,res){
     Campground.findById(req.params.id, function(err, rtrnCamp){
         if(err){
             console.log(err);
@@ -127,13 +131,13 @@ app.get("/register", function(req,res){
 })
 
 app.post("/register", function(req,res){
-    const newUser = new User({username: req.body.username})
+    const newUser = new User({username: req.body.username});
     User.register(newUser, req.body.password, function(err, user){
         if(err){
             console.log(err);
             return res.render("register");
         } else {
-            passport.authenticate("local")(res, req, function(){
+            passport.authenticate("local")(req, res, function(){
                 res.redirect("/campgrounds");
             })
         }
@@ -150,7 +154,7 @@ app.post("/login", passport.authenticate("local", {
     failureRedirect: "/login"
 }), function(req,res){})
 
-function isLoggedIn(req,res,next){
+function isLoggedIn(req, res, next){
     if(req.isAuthenticated()){
         return next();
     } else {
