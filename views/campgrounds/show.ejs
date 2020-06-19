@@ -16,8 +16,9 @@
                 <img src="<%=campground.image%>" class="card-img-top">
                 <div class="card-body">
                     <h5 class="float-right">£5/night</h5>
-                    <h2 class="card-title"><%=campground.name%></h2>
-                    <p class="card-text"><%=campground.description%></p>
+                    <h2 class="card-title"><%= campground.name %></h2>
+                    <p class="card-text"><%= campground.description %></p>
+                    <p class="card-text"> Created By: <%= campground.author.username %></p>
                 </div>
             </div>
             <div id="commentsCard" class="card">
