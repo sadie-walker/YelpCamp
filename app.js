@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const User = require("./models/user")
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
+const methodOverride = require("method-override");
 
 //Require Routes
 const indexRoutes = require("./routes/index");
@@ -19,6 +20,7 @@ mongoose.connect("mongodb://localhost:27017/yelp_camp", { useNewUrlParser: true 
 //HTTP CONFIG
 app.use(express.json());
 app.use(express.urlencoded());
+app.use(methodOverride("_method"));
 
 // FILE CONFIG
 app.use(express.static(__dirname + "/public"));
