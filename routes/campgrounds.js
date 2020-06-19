@@ -27,7 +27,6 @@ router.post("/", isLoggedIn, function(req,res){
         }
         else{
             newCamp.author = {
-                _id: req.user._id,
                 id: req.user._id,
                 username: req.user.username
             }
@@ -49,10 +48,8 @@ router.get("/:id", function(req,res){
 })
 
 // Campground EDIT
-router.get("/:id/edit", function(req,res){
 router.get("/:id/edit", isEditor, function(req,res){
     Campground.findById(req.params.id, function(err, rtrnCamp){
-        res.render("campgrounds/edit", {campground: rtrnCamp});
         if(err){
             console.log(err);
         } else {
@@ -62,7 +59,6 @@ router.get("/:id/edit", isEditor, function(req,res){
 })
 
 // Campground UPDATE
-router.post("/:id", function(req,res){
 router.put("/:id", isEditor, function(req,res){
     Campground.findByIdAndUpdate(req.params.id, req.body.camp, function(err, updtCamp){
         if(err){
@@ -71,7 +67,6 @@ router.put("/:id", isEditor, function(req,res){
             res.redirect("/campgrounds/" + req.params.id);
         }
     })
-    
 })
 
 // Campground DESTORY
