@@ -71,6 +71,19 @@ router.post("/:id", function(req,res){
     })
     
 })
+
+// Campground DESTORY
+router.delete("/:id", isEditor, function(req,res){
+    Campground.findByIdAndDelete(req.params.id, function(err, dltCamp){
+        if(err){
+            console.log(err);
+        } else {
+            res.redirect("/campgrounds");
+        }
+    })
+})
+
+
 function isLoggedIn(req, res, next){
     if(req.isAuthenticated()){
         return next();
