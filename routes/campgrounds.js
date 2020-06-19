@@ -2,8 +2,8 @@ const express = require("express");
 const router = express.Router();
 const Campground = require("../models/campground");
 
-//INDEX
-router.get("/campgrounds", function(req,res){
+//Campground INDEX
+router.get("/", function(req,res){
     Campground.find({}, function(err,allCampgrounds){
         if(err){
             console.log("error");
@@ -14,8 +14,13 @@ router.get("/campgrounds", function(req,res){
     })
 })
 
-//CREATE
-router.post("/campgrounds", function(req,res){
+//Campground NEW
+router.get("/new", function(req,res){
+    res.render("campgrounds/new");
+})
+
+//Campground CREATE
+router.post("/", function(req,res){
     let campInput = req.body.newCampInput;
     let imageInput = req.body.newCampImageInput
     let descInput = req.body.newCampDescInput
@@ -37,13 +42,8 @@ router.post("/campgrounds", function(req,res){
     res.redirect("/campgrounds");
 })
 
-//NEW
-router.get("/campgrounds/new", function(req,res){
-    res.render("campgrounds/new");
-})
-
-//SHOW
-router.get("/campgrounds/:id", function(req,res){
+//Campground SHOW
+router.get("/:id", function(req,res){
     Campground.findById(req.params.id).populate("comments").exec(function(err, rtrnCamp){
         if(err){
             console.log(err)

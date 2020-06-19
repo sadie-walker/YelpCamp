@@ -10,7 +10,7 @@ router.get("/", function(req, res){
 
 
 // ******************* AUTH ROUTES *****************************
-//registration routes
+//Sign Up
 router.get("/register", function(req,res){
     res.render("register");
 })
@@ -29,7 +29,7 @@ router.post("/register", function(req,res){
     })
 })
 
-//login routes
+//Login
 router.get("/login", function(req,res){
     res.render("login");
 })
@@ -47,7 +47,7 @@ function isLoggedIn(req, res, next){
     }
 }
 
-//logout route
+//Logout
 router.get("/logout", function(req,res){
     req.logout();
     res.redirect("/campgrounds")
