@@ -1,28 +1,30 @@
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
-const Campground = require("./models/campground");
-const Comment = require("./models/comment");
 const User = require("./models/user")
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 
+//Require Routes
 const indexRoutes = require("./routes/index");
 const campgroundRoutes = require("./routes/campgrounds");
 const commentRoutes = require("./routes/comments");
 
+//Port Connection
 const port = process.env.PORT || 3000; 
 
-//connect to database
+//Databse Connection
 mongoose.connect("mongodb://localhost:27017/yelp_camp", { useNewUrlParser: true , useUnifiedTopology: true}); 
 
+//HTTP CONFIG
 app.use(express.json());
 app.use(express.urlencoded());
 
+// FILE CONFIG
 app.use(express.static(__dirname + "/public"));
 app.set("view engine", "ejs");
 
-// ********** PASSPORT CONFIG
+//PASSPORT CONFIG
 app.use(require("express-session")({
     secret: "This is a secret",
     resave: false,
@@ -40,11 +42,12 @@ app.use(function(req, res, next){
     next();
 })
 
+//ROUTES CONFIG
 app.use(indexRoutes);
 app.use("/campgrounds", campgroundRoutes);
 app.use("/campgrounds/:id/comments", commentRoutes);
 
-//server
+//Server
 app.listen(port, function(){
     console.log("server is running");
 })
