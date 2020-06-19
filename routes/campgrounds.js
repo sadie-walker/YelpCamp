@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Campground = require("../models/campground");
+const Comment = require("../models/comment");
 
 //Campground INDEX
 router.get("/", function(req,res){
@@ -70,16 +71,21 @@ router.put("/:id", isEditor, function(req,res){
 })
 
 // Campground DESTORY
-router.delete("/:id", isEditor, function(req,res){
-    Campground.findByIdAndDelete(req.params.id, function(err, dltCamp){
-        if(err){
-            console.log(err);
-        } else {
-            res.redirect("/campgrounds");
-        }
-    })
+router.delete("/:id", isEditor, function(req,res, next){
+    Campground.findByIdAndRemove(req.params.id, function(err, dltCamp){
+        dltCamp.comments.forEach(function(comment){
+            console.log(comment._id);
+            Comment.findByIdAndDelete(comment._id, function(err, dltComm){
+                if(err){
+                    console.log(err);
+                } else{
+                    return next();
+                }
+            });
+        })
+   })
+   res.redirect("/campgrounds");
 })
-
 
 function isLoggedIn(req, res, next){
     if(req.isAuthenticated()){
