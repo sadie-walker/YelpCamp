@@ -62,6 +62,27 @@ router.put("/:commentId", function(req,res){
     })
 })
 
+//DESTROY
+router.delete("/:commentId", function(req,res){
+    Comment.findByIdAndDelete(req.params.commentId, function(err, dltComm){
+        if(err){
+            console.log(err);
+        } else {
+            Campground.findByIdAndUpdate(req.params.id, {
+                $pull: {
+                    comments: req.params.commentId
+                }
+            }, function(err, updtCamp){
+                if(err){
+                    console.log(err);
+                } else {
+                    res.redirect("/campgrounds/" + req.params.id);
+                }
+            })
+        }
+    })
+})
+
 
 function isLoggedIn(req, res, next){
     if(req.isAuthenticated()){

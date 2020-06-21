@@ -46,8 +46,9 @@
                                 <p><%=comment.text%></p>
                             </div>
                             <div class="col-md-2 text-right align-self-end">
-                                <form>
-                                    <a href="/campgrounds/<%= campground._id %>/comments/<%= comment._id %>/edit">Edit</a>
+                                <a href="/campgrounds/<%= campground._id %>/comments/<%= comment._id %>/edit">Edit</a>
+                                <form action="/campgrounds/<%= campground._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
+                                    <button>Delete</button>
                                 </form>
                                 <p>date</p>
                             </div>
