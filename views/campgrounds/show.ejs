@@ -46,10 +46,12 @@
                                 <p><%=comment.text%></p>
                             </div>
                             <div class="col-md-2 text-right align-self-end">
-                                <a href="/campgrounds/<%= campground._id %>/comments/<%= comment._id %>/edit">Edit</a>
-                                <form action="/campgrounds/<%= campground._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
-                                    <button>Delete</button>
-                                </form>
+                                <% if(currentUser && currentUser.username === comment.author.username){ %>
+                                    <a href="/campgrounds/<%= campground._id %>/comments/<%= comment._id %>/edit">Edit</a>
+                                    <form action="/campgrounds/<%= campground._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
+                                        <button>Delete</button>  
+                                    </form>  
+                                <% } %>
                                 <p>date</p>
                             </div>
                         </div>

@@ -74,7 +74,6 @@ router.put("/:id", isAuthor, function(req,res){
 router.delete("/:id", isAuthor, function(req,res, next){
     Campground.findByIdAndRemove(req.params.id, function(err, dltCamp){
         dltCamp.comments.forEach(function(comment){
-            console.log(comment._id);
             Comment.findByIdAndDelete(comment._id, function(err, dltComm){
                 if(err){
                     console.log(err);
