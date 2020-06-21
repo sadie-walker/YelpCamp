@@ -38,6 +38,19 @@ router.post("/", isLoggedIn, function(req,res){
     })
 })
 
+//EDIT
+router.get("/:commentId/edit", function(req,res){
+    Campground.findById(req.params.id, function(err, rtrnCamp){
+        if(err){
+            console.log(err);
+        } else{
+            Comment.findById(req.params.commentId, function(err, rtrnComm){
+                res.render("comments/edit", {comment: rtrnComm, campground: rtrnCamp});
+            }) 
+        }
+    })
+})
+
 function isLoggedIn(req, res, next){
     if(req.isAuthenticated()){
         return next();
