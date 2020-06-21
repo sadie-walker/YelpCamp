@@ -51,6 +51,18 @@ router.get("/:commentId/edit", function(req,res){
     })
 })
 
+//UPDATE
+router.put("/:commentId", function(req,res){
+    Comment.findByIdAndUpdate(req.params.commentId, req.body.comment, function(err, rtrnComm){
+        if(err){
+            console.log(err);
+        } else {
+            res.redirect("/campgrounds/" + req.params.id);
+        }
+    })
+})
+
+
 function isLoggedIn(req, res, next){
     if(req.isAuthenticated()){
         return next();
