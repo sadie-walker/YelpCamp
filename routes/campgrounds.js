@@ -49,7 +49,7 @@ router.get("/:id", function(req,res){
 })
 
 // Campground EDIT
-router.get("/:id/edit", isEditor, function(req,res){
+router.get("/:id/edit", isAuthor, function(req,res){
     Campground.findById(req.params.id, function(err, rtrnCamp){
         if(err){
             console.log(err);
@@ -60,7 +60,7 @@ router.get("/:id/edit", isEditor, function(req,res){
 })
 
 // Campground UPDATE
-router.put("/:id", isEditor, function(req,res){
+router.put("/:id", isAuthor, function(req,res){
     Campground.findByIdAndUpdate(req.params.id, req.body.camp, function(err, updtCamp){
         if(err){
             console.log(err);
@@ -71,7 +71,7 @@ router.put("/:id", isEditor, function(req,res){
 })
 
 // Campground DESTORY
-router.delete("/:id", isEditor, function(req,res, next){
+router.delete("/:id", isAuthor, function(req,res, next){
     Campground.findByIdAndRemove(req.params.id, function(err, dltCamp){
         dltCamp.comments.forEach(function(comment){
             console.log(comment._id);
@@ -95,7 +95,7 @@ function isLoggedIn(req, res, next){
     }
 }
 
-function isEditor(req, res, next){
+function isAuthor(req, res, next){
     Campground.findById(req.params.id, function(err, rtrnCamp){
         if(err){
             console.log(err);
