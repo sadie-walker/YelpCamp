@@ -39,14 +39,6 @@ router.post("/login", passport.authenticate("local", {
     failureRedirect: "/login"
 }), function(req,res){})
 
-function isLoggedIn(req, res, next){
-    if(req.isAuthenticated()){
-        return next();
-    } else {
-        res.redirect("/login");
-    }
-}
-
 //Logout
 router.get("/logout", function(req,res){
     req.logout();
