@@ -8,7 +8,6 @@ const middleware = require("../middleware");
 router.get("/", function(req,res){
     Campground.find({}, function(err,allCampgrounds){
         if(err){
-            console.log("error");
             console.log(err);
         } else {
             res.render("campgrounds/index", {allCampgrounds: allCampgrounds});
@@ -25,6 +24,8 @@ router.get("/new", middleware.isLoggedIn, function(req,res){
 router.post("/", middleware.isLoggedIn, function(req,res){
     Campground.create(req.body.camp, function(err, newCamp){
         if(err){
+            req.flash("error", "Unable to create new campground");
+            res.redirect("back");
             console.log(err);
         }
         else{
@@ -33,15 +34,18 @@ router.post("/", middleware.isLoggedIn, function(req,res){
                 username: req.user.username
             }
             newCamp.save();
+            req.flash("success", "Campground added!");
+            res.redirect("/campgrounds");
         }
     });
-    res.redirect("/campgrounds");
 })
 
 //Campground SHOW
 router.get("/:id", function(req,res){
     Campground.findById(req.params.id).populate("comments").exec(function(err, rtrnCamp){
         if(err){
+            req.flash("error", "Unable to find campground");
+            res.redirect("back");
             console.log(err)
         } else{
             res.render("campgrounds/show", {campground: rtrnCamp});
@@ -53,6 +57,8 @@ router.get("/:id", function(req,res){
 router.get("/:id/edit", middleware.isCampgroundAuthor, function(req,res){
     Campground.findById(req.params.id, function(err, rtrnCamp){
         if(err){
+            req.flash("error", "Unable to find campground");
+            res.redirect("back");
             console.log(err);
         } else {
             res.render("campgrounds/edit", {campground: rtrnCamp});
@@ -64,8 +70,11 @@ router.get("/:id/edit", middleware.isCampgroundAuthor, function(req,res){
 router.put("/:id", middleware.isCampgroundAuthor, function(req,res){
     Campground.findByIdAndUpdate(req.params.id, req.body.camp, function(err, updtCamp){
         if(err){
+            req.flash("error", "Unable to update campground");
+            res.redirect("back");
             console.log(err);
         } else {
+            req.flash("Campground Updated");
             res.redirect("/campgrounds/" + req.params.id);
         }
     })
@@ -74,17 +83,27 @@ router.put("/:id", middleware.isCampgroundAuthor, function(req,res){
 // Campground DESTORY
 router.delete("/:id", middleware.isCampgroundAuthor, function(req,res, next){
     Campground.findByIdAndRemove(req.params.id, function(err, dltCamp){
-        dltCamp.comments.forEach(function(comment){
-            Comment.findByIdAndDelete(comment._id, function(err, dltComm){
-                if(err){
-                    console.log(err);
-                } else{
-                    return next();
-                }
-            });
-        })
+        if(err){
+            req.flash("error", "Unable to find campground");
+            res.redirect("back");
+            console.log(err);
+        } else {
+            dltCamp.comments.forEach(function(comment){
+                Comment.findByIdAndDelete(comment._id, function(err, dltComm){
+                    if(err){
+                        req.flash("error", "Unable to delete comments");
+                        res.redirect("back");
+                        console.log(err);
+                    } else{
+                        return next();
+                    }
+                });
+            })
+            req.flash("success", "Campground deleted");
+            res.redirect("/campgrounds");
+        }
+        
    })
-   res.redirect("/campgrounds");
 })
 
 module.exports = router;

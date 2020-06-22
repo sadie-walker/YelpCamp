@@ -5,6 +5,7 @@ const User = require("./models/user")
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const methodOverride = require("method-override");
+const flash = require("connect-flash");
 
 //Require Routes
 const indexRoutes = require("./routes/index");
@@ -14,7 +15,7 @@ const commentRoutes = require("./routes/comments");
 //Port Connection
 const port = process.env.PORT || 3000; 
 
-//Databse Connection
+//Database Connection
 mongoose.connect("mongodb://localhost:27017/yelp_camp", { useNewUrlParser: true , useUnifiedTopology: true}); 
 
 //HTTP CONFIG
@@ -25,6 +26,9 @@ app.use(methodOverride("_method"));
 // FILE CONFIG
 app.use(express.static(__dirname + "/public"));
 app.set("view engine", "ejs");
+
+//FLASH CONFIG
+app.use(flash());
 
 //PASSPORT CONFIG
 app.use(require("express-session")({
@@ -41,6 +45,8 @@ passport.deserializeUser(User.deserializeUser());
 
 app.use(function(req, res, next){
     res.locals.currentUser = req.user;
+    res.locals.error = req.flash("error");
+    res.locals.success = req.flash("success");
     next();
 })
 
