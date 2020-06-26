@@ -1,5 +1,6 @@
 const middlewareObj = {};
 const Campground = require("../models/campground");
+const Comment = require("../models/comment");
 
 //LOGGED IN CHECK
 middlewareObj.isLoggedIn = function(req, res, next){
@@ -37,7 +38,7 @@ middlewareObj.isCommentAuthor = function(req, res, next){
             res.redirect("back");
             console.log(err);
         } else {
-            if(req.isAuthenticated() && rtrnComm.author.username === currentUser.username){
+            if(req.isAuthenticated() && rtrnComm.author.username === req.user.username){
                 return next();
             } else {
                 req.flash("error", "You don't have permission to edit/remove this Campground");
