@@ -6,6 +6,7 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const methodOverride = require("method-override");
 const flash = require("connect-flash");
+const moment = require("moment");
 
 //Require Routes
 const indexRoutes = require("./routes/index");
@@ -47,6 +48,7 @@ app.use(function(req, res, next){
     res.locals.currentUser = req.user;
     res.locals.error = req.flash("error");
     res.locals.success = req.flash("success");
+    res.locals.moment = moment;
     next();
 })
 
