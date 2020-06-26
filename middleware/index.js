@@ -14,7 +14,7 @@ middlewareObj.isLoggedIn = function(req, res, next){
 //CAMPGROUND AUTHOR CHECK
 middlewareObj.isCampgroundAuthor = function(req, res, next){
     Campground.findById(req.params.id, function(err, rtrnCamp){
-        if(err){
+        if(err || !rtrnCamp){
             req.flash("error", "Campground not found");
             res.redirect("back");
             console.log(err);

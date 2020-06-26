@@ -8,7 +8,7 @@ const middleware = require("../middleware");
 //Comments NEW
 router.get("/new", middleware.isLoggedIn,  function(req,res){
     Campground.findById(req.params.id, function(err, rtrnCamp){
-        if(err){
+        if(err || !rtrnCamp){
             req.flash("error", "Unable to render form");
             res.redirect("back");
             console.log(err);
@@ -50,13 +50,17 @@ router.post("/", middleware.isLoggedIn, function(req,res){
 //EDIT
 router.get("/:commentId/edit", middleware.isCommentAuthor, function(req,res){
     Campground.findById(req.params.id, function(err, rtrnCamp){
-        if(err){
+        if(err || !rtrnCamp){
             req.flash("error", "Campground not found");
             res.redirect("back");
             console.log(err);
         } else{
             Comment.findById(req.params.commentId, function(err, rtrnComm){
-                res.render("comments/edit", {comment: rtrnComm, campground: rtrnCamp});
+                if(err){
+                    res.redirect("back");
+                } else{
+                    res.render("comments/edit", {comment: rtrnComm, campground: rtrnCamp});
+                }
             }) 
         }
     })
